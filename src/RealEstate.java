@@ -185,10 +185,33 @@ public class RealEstate {
                         isPropertyPublished = false;
                     } else {
                         if (propertyType == Constant.APARTMENT) {
-                            floorNumber = getUserInputOfInt(Constant.FLOOR);
-                        }
-                        roomsNumber = getUserInputOfInt(Constant.ROOMS);
-                        propertyNumber = getUserInputOfInt(Constant.PROPERTY_PRICE);
+                            do {
+                                if (!isValidInput) {
+                                    System.out.println("Incorrect floor number try again");
+                                }
+                                System.out.println("Please enter a number greater than zero for a floor number");
+                                floorNumber = scanner.nextInt();
+                                isValidInput = false;
+                            } while (!greaterThanZeroValidation(floorNumber));
+                        } isValidInput = true;
+                        do {
+                            if (!isValidInput) {
+                                System.out.println("Incorrect rooms number try again");
+                            }
+                            System.out.println("Please enter a number greater than zero for a rooms number" );
+                            roomsNumber = scanner.nextInt();
+                            isValidInput = false;
+                        } while (!greaterThanZeroValidation(roomsNumber));
+                        isValidInput = true;
+                        do {
+                            if (!isValidInput) {
+                                System.out.println("Incorrect property type try again");
+                            }
+                            System.out.println("Please enter a number greater than zero for a property number" );
+                            propertyNumber = scanner.nextInt();
+                            isValidInput = false;
+                        } while (!greaterThanZeroValidation(propertyNumber));
+                        isValidInput =true;
                         do {
                             if (!isValidInput) {
                                 System.out.println("Incorrect try again");
@@ -437,21 +460,6 @@ public class RealEstate {
             }
         }
         return isMeetsTheFilterConditions;
-    }
-    //O(1) - complexity
-    private int getUserInputOfInt(String output) {
-        Scanner scanner = new Scanner(System.in);
-        boolean isValidInput = true;
-        int input;
-        do {
-            if (!isValidInput) {
-                System.out.println("Incorrect " + output + " try again");
-            }
-            System.out.println("Please enter a number greater than zero for a " + output);
-            input = scanner.nextInt();
-            isValidInput = false;
-        } while (!greaterThanZeroValidation(input));
-        return input;
     }
     //O(1) - complexity
     private boolean greaterThanZeroValidation(int userInput) {

@@ -31,7 +31,7 @@ public class Property {
         cityOutput+= this.cityName + " - " +
                 this.street +" " + this.houseNumber
                  +"\n"+ getPrintPropertyType() +
-                " - " + getPrintStatus()+
+                " - " + getPrintStatus()+ " "+
                 this.roomNumbers +" rooms ," + getPrintFloor() +
                 "\n" + "Price: "+ this.price+
                 "$" + "\n" +
