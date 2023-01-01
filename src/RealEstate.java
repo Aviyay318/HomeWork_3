@@ -514,6 +514,7 @@ public class RealEstate {
      }
      return isPropertyPublished;
  }
+    //O(1) - complexity
  private boolean validationPropertyStatus(int userInputStatus){
         boolean isPropertyStatus = true;
         if (userInputStatus < Constant.FOR_SALE || userInputStatus > Constant.FOR_RENT){
