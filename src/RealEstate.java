@@ -213,7 +213,7 @@ public class RealEstate {
                             System.out.println(Constant.FOR_SALE_OR_RENT);
                             userInputStatus = scanner.nextInt();
                             isValidInput = false;
-                        } while (userInputStatus < Constant.FOR_SALE || userInputStatus > Constant.FOR_RENT);
+                        } while (!validationPropertyStatus(userInputStatus));
                         if (userInputStatus == Constant.FOR_SALE) {
                             isForSale = true;
                         } else {
@@ -344,6 +344,7 @@ public class RealEstate {
         Scanner scanner = new Scanner(System.in);
         Property[] filterPropertyArray = new Property[]{};
         Integer propertyType;
+        Property property = new Property();
         int roomsNumber;
         int userInputStatus;
         boolean isForSale;
@@ -360,7 +361,7 @@ public class RealEstate {
                         + Constant.FOR_SALE_OR_RENT);
                 userInputStatus = scanner.nextInt();
                 isValidInput = false;
-            } while ((userInputStatus < Constant.FOR_SALE || userInputStatus > Constant.FOR_RENT) && userInputStatus != Constant.SKIP_SELECTION);
+            } while ((!validationPropertyStatus(userInputStatus)) && userInputStatus != Constant.SKIP_SELECTION);
             if (userInputStatus == Constant.FOR_SALE) {
                 isForSale = true;
             } else {
@@ -374,7 +375,7 @@ public class RealEstate {
                 System.out.println("Please provide the type of the property you're looking for: \n" + Constant.PROPERTY_TYPE);
                 propertyType = scanner.nextInt();
                 isValidInput = false;
-            } while ((propertyType < Constant.APARTMENT || propertyType > Constant.HOUSE) && propertyType != Constant.SKIP_SELECTION);
+            } while ((!property.validationPropertyType(propertyType)) && propertyType != Constant.SKIP_SELECTION);
             isValidInput = true;
             do {
                 if (!isValidInput) {
@@ -512,5 +513,12 @@ public class RealEstate {
          }
      }
      return isPropertyPublished;
+ }
+ private boolean validationPropertyStatus(int userInputStatus){
+        boolean isPropertyStatus = true;
+        if (userInputStatus < Constant.FOR_SALE || userInputStatus > Constant.FOR_RENT){
+            isPropertyStatus = false;
+        }
+            return isPropertyStatus;
  }
 }

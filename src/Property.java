@@ -25,6 +25,7 @@ public class Property {
         this.floorNumber = floorNumber;
         this.userProperty = userProperty;
     }
+    public Property(){}
     //O(1) - complexity
     public String toString() {
         String cityOutput="";
@@ -39,7 +40,7 @@ public class Property {
         return cityOutput;
     }
     //O(1) - complexity
-    private boolean validationPropertyType(Integer type){
+    public boolean validationPropertyType(Integer type){
         boolean isValid = true;
         if (type<Constant.APARTMENT||type>Constant.HOUSE){
             isValid = false;
