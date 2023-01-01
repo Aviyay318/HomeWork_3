@@ -294,11 +294,16 @@ public class RealEstate {
                     System.out.println("Please choose the number of the property you want to removed");
                     userChoice = scanner.nextInt();
                     for (int i = 0; i < indexUserPropertyArray.length; i++) {
-                        if ((i) == userChoice - 1) {
+                        if ((i+1) == userChoice ) {
+                            if (i!=Constant.INITIAL_VALUE_ZERO){
+                                if (indexUserPropertyArray[i]!=Constant.INITIAL_VALUE_ZERO){
                             isUserChoiceValid = true;
                             break;
-                        }
-                    }
+                        }}else {
+                                isUserChoiceValid = true;
+                                break;
+                            }
+                    }}
                 } while (!isUserChoiceValid);
                 Property[] newProperties = new Property[this.properties.length - Constant.INITIAL_VALUE_ONE];
                 int indexOfNewPropertiesArray = Constant.INITIAL_VALUE_ZERO;
