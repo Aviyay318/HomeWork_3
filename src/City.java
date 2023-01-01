@@ -21,6 +21,11 @@ public class City {
         return name;
     }
     //O(1) - complexity
+    public String getGeographicDistrict() {
+        return geographicDistrict;
+    }
+
+    //O(1) - complexity
     public String[] getStreets() {
         return streets;
     }

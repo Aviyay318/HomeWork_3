@@ -150,7 +150,7 @@ public class RealEstate {
             isPropertyPublished = false;
             System.out.println("In which city do you want to advertise your property?");
             for (int i = 0; i < this.cities.length; i++) {
-                System.out.println(this.cities[i].getName());
+                System.out.println(this.cities[i].getName() + ",  " + this.cities[i].getGeographicDistrict());
             }
             System.out.println("Enter city Name");
             cityName = scanner.nextLine();
@@ -208,7 +208,7 @@ public class RealEstate {
                                 System.out.println("Incorrect try again");
                             }
                             System.out.println("Please enter a number greater than zero for a property price");
-                            propertyPrice = Double.parseDouble(scanner.nextLine());
+                            propertyPrice = scanner.nextDouble();
                             isValidInput = false;
                         } while ((propertyPrice <= Constant.VALIDATION_ZERO_VALUE) || (propertyPrice % Constant.VALIDATION_ONE_VALUE != Constant.VALIDATION_ZERO_VALUE));
                         Property newProperty = new Property(cityName, streetName, roomsNumber, propertyPrice, propertyType, isForSale, propertyNumber, floorNumber, user);
