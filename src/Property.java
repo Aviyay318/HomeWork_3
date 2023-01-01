@@ -1,5 +1,5 @@
 public class Property {
-    private String cityName;
+    private City city;
     private String street;
     private int roomNumbers;
     private double price;
@@ -10,8 +10,8 @@ public class Property {
     private User userProperty;
 
     //O(1) - complexity
-    public Property(String cityName, String street, int roomNumbers, double price, Integer type, boolean isForSale, int houseNumber, int floorNumber, User userProperty) {
-        this.cityName = cityName;
+    public Property(City city, String street, int roomNumbers, double price, Integer type, boolean isForSale, int houseNumber, int floorNumber, User userProperty) {
+        this.city = city;
         this.street = street;
         this.roomNumbers = roomNumbers;
         this.price = price;
@@ -28,7 +28,7 @@ public class Property {
     //O(1) - complexity
     public String toString() {
         String cityOutput="";
-        cityOutput+= this.cityName + " - " +
+        cityOutput+= this.city.getName() + " - " +
                 this.street +" " + this.houseNumber
                  +"\n"+ getPrintPropertyType() +
                 " - " + getPrintStatus()+ " "+

@@ -117,6 +117,7 @@ public class RealEstate {
         Scanner scanner = new Scanner(System.in);
         boolean isPropertyPublished = true;
         int counterOfUserProperty = Constant.INITIAL_VALUE_ZERO;
+        City city;
         String cityName;
         String streetName;
         int propertyType;
@@ -234,7 +235,8 @@ public class RealEstate {
                             propertyPrice = scanner.nextDouble();
                             isValidInput = false;
                         } while ((propertyPrice <= Constant.VALIDATION_ZERO_VALUE) || (propertyPrice % Constant.VALIDATION_ONE_VALUE != Constant.VALIDATION_ZERO_VALUE));
-                        Property newProperty = new Property(cityName, streetName, roomsNumber, propertyPrice, propertyType, isForSale, propertyNumber, floorNumber, user);
+                        city = new City(cityName,this.cities[indexOfCity].getGeographicDistrict(),this.cities[indexOfCity].getStreets());
+                        Property newProperty = new Property(city, streetName, roomsNumber, propertyPrice, propertyType, isForSale, propertyNumber, floorNumber, user);
                         this.properties = addPropertyToArray(newProperty);
                     }
                 }
