@@ -16,7 +16,7 @@ public class Constant {
 
     public static final int FOR_SALE = 1;
     public static final int FOR_RENT = 2;
-    public static final int DEFAULT_SELECTION =-999;
+    public static final int SKIP_SELECTION =-999;
     public static final int POST_LIMIT_REGULAR_ACCOUNT = 2;
     public static final int POST_LIMIT_BROKER_ACCOUNT = 5;
 
@@ -53,6 +53,6 @@ public class Constant {
     public static final String FLOOR = "floor number";
     public static final String ROOMS = "rooms number";
     public static final String PROPERTY_PRICE = "property price";
-
+    public static final int CITY_DOES_NOT_EXIST = -1;
 
 }

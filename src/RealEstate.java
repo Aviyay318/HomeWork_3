@@ -4,22 +4,24 @@ public class RealEstate {
     private User[] users;
     private Property[] properties;
     private City[] cities;
+
     //O(1) - complexity
     public RealEstate() {
         this.cities = new City[10];
         this.cities[0] = new City("Eilat", "Negev-District", new String[]{"HaTmarim", "Shachamon", "Nirit"});
-        this.cities[1] = new City("Beer-Sheva", "Negev-District",new String[]{"Bialik", "Rambam", "Hatzvi"});
-        this.cities[2] = new City("Kiryat-Gat", "HaDarom-District",new String[]{"Hashoftim", "Tzaal", "Lachish"});
-        this.cities[3] = new City("Ashkelon", "HaDarom-District",new String[]{"Neve-Shalom", "Rabin", "Bialik"});
+        this.cities[1] = new City("Beer-Sheva", "Negev-District", new String[]{"Bialik", "Rambam", "Hatzvi"});
+        this.cities[2] = new City("Kiryat-Gat", "HaDarom-District", new String[]{"Hashoftim", "Tzaal", "Lachish"});
+        this.cities[3] = new City("Ashkelon", "HaDarom-District", new String[]{"Neve-Shalom", "Rabin", "Bialik"});
         this.cities[4] = new City("Tel-Aviv", "Central-District", new String[]{"Morozov", "Dizingof", "Avital"});
         this.cities[5] = new City("Ramat-Gan", "Central-District", new String[]{"Avigail", "Einstein ", "Alonim"});
-        this.cities[6] = new City("Hertzelia", "HaSharon-District",new String[]{"Marina", "Kaplan", "Beeri"});
+        this.cities[6] = new City("Hertzelia", "HaSharon-District", new String[]{"Marina", "Kaplan", "Beeri"});
         this.cities[7] = new City("Netanya", "HaSharon-District", new String[]{"Sokolov", "Herzel", "Remez"});
         this.cities[8] = new City("Harish", "Northen-District", new String[]{"Gefen", "Alon", "Rimon"});
-        this.cities[9] = new City("Haifa", "Northen-District",new String[]{"Oren", "Hilel", "Nesher"});
+        this.cities[9] = new City("Haifa", "Northen-District", new String[]{"Oren", "Hilel", "Nesher"});
         this.users = new User[Constant.INITIAL_VALUE_ZERO];
         this.properties = new Property[Constant.INITIAL_VALUE_ZERO];
     }
+
     //O(n) - complexity
     public void createUser() {
         Scanner scanner = new Scanner(System.in);
@@ -37,14 +39,14 @@ public class RealEstate {
             }
             System.out.println("Please enter your username");
             userName = scannerText.nextLine();
-            if (users != null) {
-                for (i = 0; i < users.length; i++) {
-                    if (userName.equals(users[i].getName())) {
+            if (this.users.length > Constant.INITIAL_VALUE_ZERO) {
+                for (i = 0; i < this.users.length; i++) {
+                    if (userName.equals(this.users[i].getName())) {
                         isExist = true;
                         break;
                     }
                 }
-                if (i == users.length) {
+                if (i == this.users.length) {
                     isExist = false;
                 }
             }
@@ -92,6 +94,7 @@ public class RealEstate {
         newUsers[newUsers.length - 1] = userToAdd;
         return newUsers;
     }
+
     //O(n) - complexity
     public User login() {
         Scanner scanner = new Scanner(System.in);
@@ -112,6 +115,7 @@ public class RealEstate {
         }
         return newUser;
     }
+
     //O(n) - complexity
     public boolean postNewProperty(User user) {
         Scanner scanner = new Scanner(System.in);
@@ -130,10 +134,7 @@ public class RealEstate {
         boolean isValidInput = true;
         int indexOfCity = Constant.INITIAL_VALUE_ZERO;
         if (this.properties.length > Constant.INITIAL_VALUE_ZERO) {
-            for (int i = 0; i < this.properties.length; i++) {
-                if (user.getName().equals(this.properties[i].getUserProperty().getName())) {
-                    counterOfUserProperty++;
-                }
+            counterOfUserProperty = counterOfUserProperties(user);
             }
             if (user.getIsBroker()) {
                 if (counterOfUserProperty == Constant.POST_LIMIT_BROKER_ACCOUNT) {
@@ -146,40 +147,31 @@ public class RealEstate {
                     isPropertyPublished = false;
                 }
             }
-        }
         if (isPropertyPublished) {
             isPropertyPublished = false;
             System.out.println("In which city do you want to advertise your property?");
-            for (int i = 0; i < this.cities.length; i++) {
-                System.out.println(this.cities[i].getName() + ",  " + this.cities[i].getGeographicDistrict());
-            }
+            printCitiesList();
             System.out.println("Enter city Name");
             cityName = scanner.nextLine();
-            for (int i = 0; i < this.cities.length; i++) {
-                if (this.cities[i].getName().equals(cityName)) {
-                    isPropertyPublished = true;
-                    indexOfCity = i;
-                }
-            }
+           indexOfCity = isCityExit(cityName);
+           if (indexOfCity!=Constant.CITY_DOES_NOT_EXIST){
+               isPropertyPublished = true;
+           }
             if (!isPropertyPublished) {
                 System.out.println("inValid city name");
             } else {
                 isPropertyPublished = false;
                 System.out.println("In which street do you want to advertise the property?");
-                for (int i = 0; i < this.cities[indexOfCity].getStreets().length; i++) {
-                    System.out.println(this.cities[indexOfCity].getStreets()[i]);
-                }
+                printStreetsList(indexOfCity);
                 System.out.println("Enter street Name");
                 streetName = scanner.nextLine();
-                for (int i = 0; i < this.cities[indexOfCity].getStreets().length; i++) {
-                    if (this.cities[indexOfCity].getStreets()[i].equals(streetName)) {
-                        isPropertyPublished = true;
-                    }
+                if (isStreetExit(indexOfCity,streetName)){
+                    isPropertyPublished = true;
                 }
                 if (!isPropertyPublished) {
                     System.out.println("inValid street name");
                 } else {
-                    System.out.println("Enter the type of the property: \n" + Constant.PROPERTY_TYPE );
+                    System.out.println("Enter the type of the property: \n" + Constant.PROPERTY_TYPE);
                     propertyType = scanner.nextInt();
                     if (propertyType < Constant.APARTMENT || propertyType > Constant.HOUSE) {
                         System.out.println("Invalid property type.");
@@ -194,12 +186,13 @@ public class RealEstate {
                                 floorNumber = scanner.nextInt();
                                 isValidInput = false;
                             } while (!greaterThanZeroValidation(floorNumber));
-                        } isValidInput = true;
+                        }
+                        isValidInput = true;
                         do {
                             if (!isValidInput) {
                                 System.out.println("Incorrect rooms number try again");
                             }
-                            System.out.println("Please enter a number greater than zero for a rooms number" );
+                            System.out.println("Please enter a number greater than zero for a rooms number");
                             roomsNumber = scanner.nextInt();
                             isValidInput = false;
                         } while (!greaterThanZeroValidation(roomsNumber));
@@ -208,11 +201,11 @@ public class RealEstate {
                             if (!isValidInput) {
                                 System.out.println("Incorrect property type try again");
                             }
-                            System.out.println("Please enter a number greater than zero for a property number" );
+                            System.out.println("Please enter a number greater than zero for a property number");
                             propertyNumber = scanner.nextInt();
                             isValidInput = false;
                         } while (!greaterThanZeroValidation(propertyNumber));
-                        isValidInput =true;
+                        isValidInput = true;
                         do {
                             if (!isValidInput) {
                                 System.out.println("Incorrect try again");
@@ -235,7 +228,7 @@ public class RealEstate {
                             propertyPrice = scanner.nextDouble();
                             isValidInput = false;
                         } while ((propertyPrice <= Constant.VALIDATION_ZERO_VALUE) || (propertyPrice % Constant.VALIDATION_ONE_VALUE != Constant.VALIDATION_ZERO_VALUE));
-                        city = new City(cityName,this.cities[indexOfCity].getGeographicDistrict(),this.cities[indexOfCity].getStreets());
+                        city = new City(cityName, this.cities[indexOfCity].getGeographicDistrict(), this.cities[indexOfCity].getStreets());
                         Property newProperty = new Property(city, streetName, roomsNumber, propertyPrice, propertyType, isForSale, propertyNumber, floorNumber, user);
                         this.properties = addPropertyToArray(newProperty);
                     }
@@ -245,6 +238,7 @@ public class RealEstate {
         return isPropertyPublished;
 
     }
+
     //O(n) - complexity
     private Property[] addPropertyToArray(Property propertyToAdd) {
         Property[] newProperty;
@@ -259,6 +253,7 @@ public class RealEstate {
         newProperty[newProperty.length - 1] = propertyToAdd;
         return newProperty;
     }
+
     //O(n) - complexity
     public void removeProperty(User user) {
         Scanner scanner = new Scanner(System.in);
@@ -298,8 +293,8 @@ public class RealEstate {
                     }
                     System.out.println("Please choose the number of the property you want to removed");
                     userChoice = scanner.nextInt();
-                    for (int i = 0; i <indexUserPropertyArray.length; i++) {
-                        if ((i) == userChoice-1) {
+                    for (int i = 0; i < indexUserPropertyArray.length; i++) {
+                        if ((i) == userChoice - 1) {
                             isUserChoiceValid = true;
                             break;
                         }
@@ -318,6 +313,7 @@ public class RealEstate {
             }
         }
     }
+
     //O(n) - complexity
     public void printAllProperties() {
         if (this.properties.length > Constant.INITIAL_VALUE_ZERO) {
@@ -328,6 +324,7 @@ public class RealEstate {
             System.out.println("There are no properties to display");
         }
     }
+
     //O(n) - complexity
     public void printProperties(User user) {
         if (this.properties.length > Constant.VALIDATION_ZERO_VALUE) {
@@ -341,6 +338,7 @@ public class RealEstate {
             System.out.println("You have no properties to display");
         }
     }
+
     //O(n) - complexity
     public Property[] search() {
         Scanner scanner = new Scanner(System.in);
@@ -362,7 +360,7 @@ public class RealEstate {
                         + Constant.FOR_SALE_OR_RENT);
                 userInputStatus = scanner.nextInt();
                 isValidInput = false;
-            } while ((userInputStatus < Constant.FOR_SALE || userInputStatus > Constant.FOR_RENT) && userInputStatus != Constant.DEFAULT_SELECTION);
+            } while ((userInputStatus < Constant.FOR_SALE || userInputStatus > Constant.FOR_RENT) && userInputStatus != Constant.SKIP_SELECTION);
             if (userInputStatus == Constant.FOR_SALE) {
                 isForSale = true;
             } else {
@@ -376,7 +374,7 @@ public class RealEstate {
                 System.out.println("Please provide the type of the property you're looking for: \n" + Constant.PROPERTY_TYPE);
                 propertyType = scanner.nextInt();
                 isValidInput = false;
-            } while ((propertyType < Constant.APARTMENT || propertyType > Constant.HOUSE) && propertyType != Constant.DEFAULT_SELECTION);
+            } while ((propertyType < Constant.APARTMENT || propertyType > Constant.HOUSE) && propertyType != Constant.SKIP_SELECTION);
             isValidInput = true;
             do {
                 if (!isValidInput) {
@@ -385,7 +383,7 @@ public class RealEstate {
                 System.out.println("How many rooms in the property?");
                 roomsNumber = scanner.nextInt();
                 isValidInput = false;
-            } while ((!greaterThanZeroValidation( roomsNumber)) && roomsNumber != Constant.DEFAULT_SELECTION);
+            } while ((!greaterThanZeroValidation(roomsNumber)) && roomsNumber != Constant.SKIP_SELECTION);
             isValidInput = true;
             System.out.println("What is the desired price range?");
             do {
@@ -395,7 +393,7 @@ public class RealEstate {
                 System.out.println("Price from?");
                 minimumPrice = scanner.nextDouble();
                 isValidInput = false;
-            } while ((minimumPrice < Constant.VALIDATION_ZERO_VALUE || minimumPrice % Constant.VALIDATION_ONE_VALUE != Constant.VALIDATION_ZERO_VALUE) && minimumPrice != Constant.DEFAULT_SELECTION);
+            } while ((minimumPrice < Constant.VALIDATION_ZERO_VALUE || minimumPrice % Constant.VALIDATION_ONE_VALUE != Constant.VALIDATION_ZERO_VALUE) && minimumPrice != Constant.SKIP_SELECTION);
             isValidInput = true;
             do {
                 if (!isValidInput) {
@@ -404,7 +402,7 @@ public class RealEstate {
                 System.out.println("price to?");
                 maximumPrice = scanner.nextDouble();
                 isValidInput = false;
-            } while ((maximumPrice < Constant.VALIDATION_ZERO_VALUE || maximumPrice % Constant.VALIDATION_ONE_VALUE != Constant.VALIDATION_ZERO_VALUE) && maximumPrice != Constant.DEFAULT_SELECTION);
+            } while ((maximumPrice < Constant.VALIDATION_ZERO_VALUE || maximumPrice % Constant.VALIDATION_ONE_VALUE != Constant.VALIDATION_ZERO_VALUE) && maximumPrice != Constant.SKIP_SELECTION);
             int counterOfFilterConditions = Constant.INITIAL_VALUE_ZERO;
             for (int i = 0; i < this.properties.length; i++) {
                 if (isMeetsTheFilterConditions(userInputStatus, isForSale, propertyType, roomsNumber,
@@ -425,37 +423,38 @@ public class RealEstate {
         }
         return filterPropertyArray;
     }
+
     //O(1) - complexity
     private boolean isMeetsTheFilterConditions(int userInputStatus, boolean isForSale, int propertyType, int roomsNumber, double minimumPrice, double maximumPrice, int indexProperty) {
         boolean isMeetsTheFilterConditions = true;
-        if (userInputStatus != Constant.DEFAULT_SELECTION) {
+        if (userInputStatus != Constant.SKIP_SELECTION) {
             if (isForSale != this.properties[indexProperty].isForSale()) {
                 isMeetsTheFilterConditions = false;
             }
         }
         if (isMeetsTheFilterConditions) {
-            if (propertyType != Constant.DEFAULT_SELECTION) {
+            if (propertyType != Constant.SKIP_SELECTION) {
                 if (propertyType != this.properties[indexProperty].getType()) {
                     isMeetsTheFilterConditions = false;
                 }
             }
         }
         if (isMeetsTheFilterConditions) {
-            if (roomsNumber != Constant.DEFAULT_SELECTION) {
+            if (roomsNumber != Constant.SKIP_SELECTION) {
                 if (roomsNumber != this.properties[indexProperty].getRoomNumbers()) {
                     isMeetsTheFilterConditions = false;
                 }
             }
         }
         if (isMeetsTheFilterConditions) {
-            if (minimumPrice != Constant.DEFAULT_SELECTION) {
+            if (minimumPrice != Constant.SKIP_SELECTION) {
                 if (minimumPrice > this.properties[indexProperty].getPrice()) {
                     isMeetsTheFilterConditions = false;
                 }
             }
         }
         if (isMeetsTheFilterConditions) {
-            if (maximumPrice != Constant.DEFAULT_SELECTION) {
+            if (maximumPrice != Constant.SKIP_SELECTION) {
                 if (maximumPrice < this.properties[indexProperty].getPrice()) {
                     isMeetsTheFilterConditions = false;
                 }
@@ -463,12 +462,55 @@ public class RealEstate {
         }
         return isMeetsTheFilterConditions;
     }
+
     //O(1) - complexity
     private boolean greaterThanZeroValidation(int userInput) {
         boolean isValidInput = true;
-        if (userInput <=  Constant.VALIDATION_ZERO_VALUE) {
+        if (userInput <= Constant.VALIDATION_ZERO_VALUE) {
             isValidInput = false;
         }
         return isValidInput;
     }
+    //O(n) - complexity
+    private int counterOfUserProperties(User user) {
+        int counterOfUserProperty = Constant.INITIAL_VALUE_ZERO;
+        for (int i = 0; i < this.properties.length; i++) {
+            if (user.getName().equals(this.properties[i].getUserProperty().getName())) {
+                counterOfUserProperty++;
+            }
+        }
+        return counterOfUserProperty;
+    }
+    //O(n) - complexity
+    private void printCitiesList(){
+        for (int i = 0; i < this.cities.length; i++) {
+            System.out.println(this.cities[i].getName() + ",  " + this.cities[i].getGeographicDistrict());
+    }
+    }
+    //O(n) - complexity
+    private void printStreetsList(int indexOfCity){
+        for (int i = 0; i < this.cities[indexOfCity].getStreets().length; i++) {
+            System.out.println(this.cities[indexOfCity].getStreets()[i]);
+        }
+    }
+    //O(n) - complexity
+ private int isCityExit(String cityName){
+        int indexOfCity = Constant.CITY_DOES_NOT_EXIST;
+     for (int i = 0; i < this.cities.length; i++) {
+         if (this.cities[i].getName().equals(cityName)) {
+             indexOfCity = i;
+         }
+     }
+     return indexOfCity;
+ }
+    //O(n) - complexity
+ private boolean isStreetExit(int indexOfCity,String streetName){
+        boolean isPropertyPublished = false;
+     for (int i = 0; i < this.cities[indexOfCity].getStreets().length; i++) {
+         if (this.cities[indexOfCity].getStreets()[i].equals(streetName)) {
+             isPropertyPublished = true;
+         }
+     }
+     return isPropertyPublished;
+ }
 }
