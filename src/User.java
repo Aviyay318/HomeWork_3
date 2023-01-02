@@ -72,8 +72,6 @@ public class User {
     //O(n) - complexity
     private boolean passwordValidation(String password){
         boolean isValid=true;
-        String digits="0123456789";
-        String necessaryChar ="$%_";
         if (password.length()<Constant.PASSWORD_VALIDATION_MINIMUM){
             isValid=false;
         }
@@ -81,7 +79,7 @@ public class User {
             isValid=false;
             for (int i=0;i<password.length();i++){
                 String currentChar =password.charAt(i)+"";
-                if (digits.contains(currentChar)){
+                if (Constant.DIGITS.contains(currentChar)){
                     isValid=true;
                     break;
                 }
@@ -91,7 +89,7 @@ public class User {
                 isValid=false;
                 for (int i=0;i<password.length();i++){
                     String currentChar =password.charAt(i)+"";
-                    if (necessaryChar.contains(currentChar)){
+                    if (Constant.NECESSARY_ֹCHAR.contains(currentChar)){
                         isValid=true;
                         break;
                     }
@@ -103,20 +101,21 @@ public class User {
     //O(n) - complexity
     private boolean phoneNumberValidation(String phoneNumber) {
         boolean isValid=true;
-        String digits="0123456789";
         if (phoneNumber.length()!=Constant.PHONE_NUMBER_VALIDATION){
             isValid = false;
         }
         else {
             String help = phoneNumber.substring(Constant.PREFIX_START,Constant.PREFIX_END);
-            if (help.equals("05")){
+            if (help.equals(Constant.AREA_CODE)){
                 for (int i=2;i<phoneNumber.length();i++){
                     String helper=phoneNumber.charAt(i) +"";
-                    if(!digits.contains(helper)){
+                    if(!Constant.DIGITS.contains(helper)){
                         isValid=false;
                         break;
                     }
                 }
+            }else {
+                isValid = false;
             }
 
         }

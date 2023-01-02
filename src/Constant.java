@@ -54,5 +54,7 @@ public class Constant {
     public static final String ROOMS = "rooms number";
     public static final String PROPERTY_PRICE = "property price";
     public static final int CITY_DOES_NOT_EXIST = -1;
-
+    public static final String DIGITS="0123456789";
+    public static final String NECESSARY_ֹCHAR ="$%_";
+    public static final String AREA_CODE ="05";
 }
